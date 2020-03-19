@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Editor from './Editor';
 import Output from './Output';
+import Header from './Header';
+import BlockingMethods from './blockingMethods';
 
 function App () {
     const [geojson, setGeojson] = useState();
@@ -15,8 +17,8 @@ function App () {
 
     return (
         <div className="app">
-            {/*<div className="status-bar" style="height: 36px;"></div>*/}
-            <main style={{height: '100vh', display:'flex'}}>
+            <Header />
+            <main>
                 <Editor onChange={onChange}/>
                 {/*<div className="gutter gutter-horizontal" style="width: 2px;"></div>*/}
                 <Output geojson={geojson} error={error}/>
@@ -28,12 +30,15 @@ function App () {
 function executeCode (code) {
     let result = null;
     let error = null;
+    BlockingMethods.kill();
     try {
+        /* eslint-disable-next-line no-new-func */
         result = (new Function(code))();
     } catch (e) {
         error = 'Invalid GeoJSON output';
         console.error(e);
     }
+    BlockingMethods.restore();
     return [result, error];
 }
 

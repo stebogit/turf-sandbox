@@ -7,6 +7,6 @@ function Alert ({message}) {
             {message}
         </div>
     )
-};
+}
 
 export default Alert;

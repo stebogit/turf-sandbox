@@ -8,11 +8,9 @@ function Output ({geojson, error}) {
             <Alert message={error} />}
 
             <iframe
-                title="result"
+                title="result" sandbox="allow-scripts allow-popups"
                 src={'data:text/html;charset=utf-8;base64,' + btoa(page(JSON.stringify(geojson)))}
                 style={{ border: 'none', width: '100%', margin: 'auto', display: 'block' }} height="100%"
-                allowFullScreen
-                // sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin allow-top-navigation-by-user-activation"
             />
         </div>
     )
@@ -38,7 +36,6 @@ function page (geojson) {
 </head>
 <body>
 
-<div id="error"></div>
 <div id="map"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
@@ -48,10 +45,17 @@ function page (geojson) {
     const map = L.map('map', {
       center: center.slice().reverse(),
       zoom: 6,
-      layers: [ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') ],
     });
 
-    L.geoJSON(${geojson}).addTo(map);
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com" title="A JS library for interactive maps" target="_blank" rel="noreferrer noopener">Leaflet</a>');
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer noopener">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const geoJSON = L.geoJSON(${geojson}).addTo(map);
+    const bounds = geoJSON.getBounds();
+    if (bounds.isValid()) map.fitBounds(bounds);
 </script>
 </body>
 </html>
