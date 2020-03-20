@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "DEBUG=turf-sandbox:* nodemon bin/www",
     "lint": "./node_modules/.bin/eslint server --fix",
-    "start": "node bin/www"
+    "start": "node bin/www",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

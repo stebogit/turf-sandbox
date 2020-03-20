@@ -29,16 +29,21 @@ header {
   background-color: #2ecc71;
 
   .logo {
-    cursor: pointer;
     display: inline-block;
 
     h1 {
       font-size: 2rem;
-      color: white;
-      letter-spacing: .4rem;
-      font-weight: 400;
-      padding: 3px 10px;
+      font-weight: 500;
+      padding: 4px 10px 0;
       margin: 0;
+
+      a {
+        color: white;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
 
       small {
         color: #01313f;
@@ -52,6 +57,18 @@ header {
   .tools {
     float: right;
     padding: 7px 14px;
+    display: flex;
+
+    a {
+      padding: .2rem .5rem;
+      color: initial;
+      display: inline-block;
+
+      .svg-inline--fa.fa-lg {
+        // correct default alignment
+        vertical-align: middle;
+      }
+    }
 
     .dropdown .dropdown-menu .menu-item {
       display: block;
