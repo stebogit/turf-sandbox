@@ -91,6 +91,7 @@ main {
 
   .resizable {
     position: relative;
+    min-width: 400px;
 
     .divider {
       height: 100%;
@@ -114,6 +115,7 @@ main {
   .iframe-container {
     position: relative;
     overflow: hidden;
+    min-width: 400px;
 
     .alert {
       margin-left: 46px;
