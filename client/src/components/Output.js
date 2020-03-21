@@ -1,16 +1,15 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import Alert from './Alert';
 
-function Output ({geojson, error}) {
+function Output ({width, geojson, error}, ref) {
     return (
-        <div style={{width: '50%', position: 'relative'}}>
+        <div className="iframe-container" style={{width}}>
             {error &&
             <Alert message={error} />}
 
             <iframe
-                title="result" sandbox="allow-scripts allow-popups"
+                title="result" ref={ref} sandbox="allow-scripts allow-popups"
                 src={'data:text/html;charset=utf-8;base64,' + btoa(page(JSON.stringify(geojson)))}
-                style={{ border: 'none', width: '100%', margin: 'auto', display: 'block' }} height="100%"
             />
         </div>
     )
@@ -62,4 +61,4 @@ function page (geojson) {
     `
 }
 
-export default Output;
+export default forwardRef(Output);

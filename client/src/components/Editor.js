@@ -30,21 +30,23 @@ function Editor (props) {
     }
 
     return (
-        <div className="" style={{ height: '100%', width: '50%' }}>
+        <div className="editor-container">
             <AceEditor
                 placeholder=""
                 defaultValue={defaultCode}
                 height="100%"
-                width="auto"
+                width="100%"
                 mode="javascript"
                 theme="solarized_dark"
-                debounceChangePeriod={500}
+                debounceChangePeriod={1000}
                 onChange={onChange}
                 onLoad={() => props.onChange(defaultCode)}
                 value={code}
                 enableBasicAutocompletion
                 enableLiveAutocompletion
                 tabSize={2}
+                wrapEnabled
+                showPrintMargin={false}
             />
         </div>
     )
