@@ -20,7 +20,11 @@ function App () {
     }
 
     useEffect(() => {
-        divider.current.addEventListener('mousedown', activate);
+        // save ref value locally: see react-hooks/exhaustive-deps eslint rule
+        const localDivider = divider.current;
+        const localContainer = container.current;
+
+        localDivider.addEventListener('mousedown', activate);
 
         function activate (e) {
             e.preventDefault();
@@ -31,7 +35,7 @@ function App () {
         }
 
         function resize (e) {
-            setWidth(e.pageX - container.current.getBoundingClientRect().left);
+            setWidth(e.pageX - localContainer.getBoundingClientRect().left);
         }
 
         function stopResize () {
@@ -40,7 +44,7 @@ function App () {
         }
 
         return function cleanup () {
-            divider.current.removeEventListener('mousedown', activate);
+            localDivider.removeEventListener('mousedown', activate);
             window.removeEventListener('mouseup', stopResize);
             window.removeEventListener('mousemove', resize);
         };
