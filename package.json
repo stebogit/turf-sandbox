@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "NODE_ENV=development DEBUG=turf-sandbox:* nodemon bin/www",
     "lint": "./node_modules/.bin/eslint server --fix",
+    "start": "node bin/www",
     "serve": "NODE_ENV=production PORT=3000 node bin/www",
     "preserve": "cd client && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install && npm run build"
