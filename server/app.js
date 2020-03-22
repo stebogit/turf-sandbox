@@ -3,12 +3,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const favicon = require('serve-favicon');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
-
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -23,12 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
 if (isProduction) {
   // Serve any static files
-  // app.use(favicon(path.join(__dirname, '../client/build/favicon.png')));
+  app.use(favicon(path.join(__dirname, '../client/build/favicon.ico')));
   app.use(express.static(path.join(__dirname, '../client/build')));
 
   // Handle React routing, return all requests to React app

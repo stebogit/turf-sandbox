@@ -2,10 +2,18 @@
   "name": "turf-sandbox",
   "version": "0.1.0",
   "private": true,
+  "author": "Stefano Borghi <@stebogit>",
+  "homepage": "https://github.com/stebogit/turf-sandbox",
+  "keywords": [
+    "turf",
+    "sandbox",
+    "playground"
+  ],
   "scripts": {
-    "dev": "DEBUG=turf-sandbox:* nodemon bin/www",
+    "dev": "NODE_ENV=development DEBUG=turf-sandbox:* nodemon bin/www",
     "lint": "./node_modules/.bin/eslint server --fix",
-    "start": "node bin/www",
+    "start": "NODE_ENV=production PORT=3000 node bin/www",
+    "prestart": "cd client && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
@@ -14,7 +22,8 @@
     "express": "~4.16.0",
     "hbs": "4.1.0",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "serve-favicon": "2.5.0"
   },
   "devDependencies": {
     "eslint": "6.8.0",
