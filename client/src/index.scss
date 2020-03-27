@@ -19,6 +19,23 @@ body {
   border-color: $danger;
 }
 
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: lightgrey;
+  opacity: .6;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+
+  .fa-compass {
+    display: inline-block;
+    margin-top: calc(50vh - 40px);
+  }
+}
+
 header {
   height: 45px;
   background-color: #2ecc71;
@@ -53,11 +70,18 @@ header {
     float: right;
     padding: 7px 14px;
     display: flex;
+    line-height: 30px;
+
+    .version {
+      display: inline-block;
+      margin-right: 15px;
+      font-size: 80%;
+      color: #002B36;
+      font-style: italic;
+    }
 
     a {
-      padding: .2rem .5rem;
       color: initial;
-      display: inline-block;
 
       .svg-inline--fa.fa-lg {
         // correct default alignment
@@ -91,31 +115,28 @@ main {
 
   .resizable {
     position: relative;
-    min-width: 400px;
+    min-width: 200px;
 
     .divider {
       height: 100%;
-      width: 3px;
-      background-color: grey;
+      width: 10px;
+      background-color: #004e65;
       position: absolute;
       right: 0;
       top: 0;
-
-      &:hover {
-        cursor: col-resize ;
-      }
+      cursor: col-resize ;
     }
 
     .editor-container {
       height: 100%;
-      width: calc(100% - 3px);
+      width: calc(100% - 10px);
     }
   }
 
   .iframe-container {
     position: relative;
     overflow: hidden;
-    min-width: 400px;
+    min-width: 200px;
 
     .alert {
       margin-left: 46px;

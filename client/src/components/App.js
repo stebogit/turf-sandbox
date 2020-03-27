@@ -1,77 +1,57 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Editor from './Editor';
 import Output from './Output';
 import Header from './Header';
 import BlockingMethods from './blockingMethods';
+import Resizable from './Resizable';
+
+const NPM_URL = 'https://unpkg.com/@turf/turf/dist/turf.min.js';
+
+const defaultState = {
+    geojson: null,
+    error: null,
+    version: '',
+    turf: '',
+    loading: true,
+};
 
 function App () {
-    const [geojson, setGeojson] = useState();
-    const [error, setError] = useState();
-    const [width, setWidth] = useState('50%');
-    const container = useRef(null);
-    const divider = useRef(null);
+    const [state, setState] = useState(defaultState);
     const iframe = useRef(null);
 
     function onChange (code, options) {
         console.clear();
-        const [geojson, error] = executeCode(code);
-        setGeojson(geojson);
-        setError(error);
+        const [geojson, error] = executeCode(state.turf + code);
+        setState({...state, geojson, error});
     }
 
     useEffect(() => {
-        // save ref value locally: see react-hooks/exhaustive-deps eslint rule
-        const localDivider = divider.current;
-        const localContainer = container.current;
-
-        localDivider.addEventListener('mousedown', activate);
-
-        function activate (e) {
-            e.preventDefault();
-            // we need to disable mouse events on the iframe otherwise we won't receive the `onmouseup` event back
-            disableMouseEvent();
-            window.addEventListener('mousemove', resize);
-            window.addEventListener('mouseup', stopResize);
-        }
-
-        function resize (e) {
-            setWidth(e.pageX - localContainer.getBoundingClientRect().left);
-        }
-
-        function stopResize () {
-            window.removeEventListener('mousemove', resize);
-            enableMouseEvent();
-        }
-
-        return function cleanup () {
-            localDivider.removeEventListener('mousedown', activate);
-            window.removeEventListener('mouseup', stopResize);
-            window.removeEventListener('mousemove', resize);
-        };
+        // import Turf
+        fetch(NPM_URL, {redirect: 'follow'})
+            .then(response => {
+                const version = (new URL(response.url)).pathname.split('/@turf/turf@')[1].split('/')[0];
+                setState(s => ({ ...s, version }));
+                return response.text()
+            })
+            .then(turf => setState(s => ({ ...s, turf, loading: false })))
+            .catch(console.error);
     }, []);
 
-    function disableMouseEvent () {
-        iframe.current.style.pointerEvents = 'none';
-    }
-
-    function enableMouseEvent () {
-        iframe.current.style.pointerEvents = 'auto';
-    }
+    // we need to disable mouse events on the iframe otherwise we won't receive the `onmouseup` event back
+    const disableMouseEvent = useCallback(() => iframe.current.style.pointerEvents = 'none', []);
+    const enableMouseEvent = useCallback(() => iframe.current.style.pointerEvents = 'auto', []);
 
     return (
         <>
-            <Header/>
+            <Header version={state.version} />
             <main>
-                <div className="resizable" ref={container} style={{ width }}>
-                    <Editor onChange={onChange}/>
-                    <div className="divider" ref={divider}/>
-                </div>
-
-                <Output
-                    geojson={geojson} error={error} ref={iframe}
-                    width={width === '50%' ? width : `calc(100% - ${width}px)`}
+                <Resizable onBeforeResize={disableMouseEvent} onAfterResize={enableMouseEvent} leftElement={
+                    <Editor onChange={onChange}/>} rightElement={
+                    <Output geojson={state.geojson} error={state.error} ref={iframe}/>}
                 />
             </main>
+            {state.loading &&
+                <div className="overlay"><i className="far fa-compass fa-spin fa-5x"/></div>}
         </>
     );
 }

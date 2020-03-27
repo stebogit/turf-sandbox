@@ -3,7 +3,7 @@ import React from 'react';
 //     DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem, CustomInput
 // } from 'reactstrap';
 
-function Header () {
+function Header ({version}) {
     return (
         <header>
             <div className="logo">
@@ -15,6 +15,7 @@ function Header () {
                 </h1>
             </div>
             <div className="tools">
+                {version && <span className="version">Running Turf <strong>v{version}</strong></span>}
                 <a href="https://github.com/stebogit/turf-sandbox" target="_blank" rel="noreferrer noopener">
                     <i className="fab fa-github fa-lg" />
                 </a>

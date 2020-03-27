@@ -3,7 +3,7 @@ import Alert from './Alert';
 
 function Output ({width, geojson, error}, ref) {
     return (
-        <div className="iframe-container" style={{width}}>
+        <>
             {error &&
             <Alert message={error} />}
 
@@ -11,7 +11,7 @@ function Output ({width, geojson, error}, ref) {
                 title="result" ref={ref} sandbox="allow-scripts allow-popups"
                 src={'data:text/html;charset=utf-8;base64,' + btoa(page(JSON.stringify(geojson)))}
             />
-        </div>
+        </>
     )
 }
 
@@ -37,7 +37,6 @@ function page (geojson) {
 
 <div id="map"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
 <script>
     const center = [10, 50];
 
