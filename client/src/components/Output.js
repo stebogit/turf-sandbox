@@ -29,6 +29,11 @@ function page (geojson) {
             integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
             crossorigin=""></script>
 
+    <!-- leaflet-simplestyle -->
+    <script src="https://unpkg.com/leaflet-simplestyle@1.0.1/dist/leaflet-simplestyle.min.js"
+            integrity="sha384-5/fqZjPyJTThDocZ9o85x+dhgirhDqRKjJ5Z72zDzFpyJxi1Mdl9TvoPIuddk4EF"
+            crossorigin=""></script>
+
     <style type="text/css">
         html, body, iframe, #map {width:100%; height:100%; margin:0; padding:0; border:0; display:block;}
     </style>
@@ -51,13 +56,16 @@ function page (geojson) {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer noopener">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    const geoJSON = L.geoJSON(${geojson}).addTo(map);
+    const geoJSON = L.geoJSON(${geojson}, {
+        useSimpleStyle: true,
+        style: (feature) => ({...feature.properties}),
+    }).addTo(map);
     const bounds = geoJSON.getBounds();
     if (bounds.isValid()) map.fitBounds(bounds);
 </script>
 </body>
 </html>
-    `
+    `;
 }
 
 export default forwardRef(Output);
