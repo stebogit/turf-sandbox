@@ -18,8 +18,10 @@
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
+    "axios": "0.19.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "8.2.0",
     "express": "~4.16.0",
     "hbs": "4.1.0",
     "http-errors": "~1.6.2",

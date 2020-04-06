@@ -1,9 +1,7 @@
 import React from 'react';
-// import {
-//     DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem, CustomInput
-// } from 'reactstrap';
+import User from './User';
 
-function Header ({version}) {
+function Header () {
     return (
         <header>
             <div className="logo">
@@ -15,23 +13,7 @@ function Header ({version}) {
                 </h1>
             </div>
             <div className="tools">
-                {version && <span className="version">Running Turf <strong>v{version}</strong></span>}
-                <a href="https://github.com/stebogit/turf-sandbox" target="_blank" rel="noreferrer noopener">
-                    <i className="fab fa-github fa-lg" />
-                </a>
-                {/*<UncontrolledDropdown>*/}
-                {/*    <DropdownToggle color="light" size="sm" caret>*/}
-                {/*        <i className="fas fa-cog"/>*/}
-                {/*    </DropdownToggle>*/}
-                {/*    <DropdownMenu right>*/}
-                {/*        <DropdownItem>*/}
-                {/*            Item*/}
-                {/*        </DropdownItem>*/}
-                {/*        <div className="menu-item">*/}
-                {/*            <CustomInput type="switch" id="autosave" label="Auto save" checked={autosave} onChange={setAutosave}/>*/}
-                {/*        </div>*/}
-                {/*    </DropdownMenu>*/}
-                {/*</UncontrolledDropdown>*/}
+                <User />
             </div>
         </header>
     );

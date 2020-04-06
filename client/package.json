@@ -5,7 +5,7 @@
   "proxy": "http://localhost:3001",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID react-scripts build",
     "test": "react-scripts test"
   },
   "dependencies": {

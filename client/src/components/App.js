@@ -5,6 +5,8 @@ import Header from './Header';
 import BlockingMethods from './blockingMethods';
 import Resizable from './Resizable';
 import withTurf from './withTurf';
+import Loader from './Loader';
+import Footer from './Footer';
 
 const defaultState = {
     geojson: null,
@@ -55,15 +57,15 @@ function App ({turf, version, loading, error}) {
 
     return (
         <>
-            <Header version={version} />
+            <Header />
             <main>
                 <Resizable onBeforeResize={disableMouseEvent} onAfterResize={enableMouseEvent} leftElement={
                     <Editor defaultCode={initialCode} onChange={onChange}/>} rightElement={
                     <Output geojson={state.geojson} error={state.error} ref={iframe}/>}
                 />
             </main>
-            {loading &&
-                <div className="overlay"><i className="far fa-compass fa-spin fa-5x"/></div>}
+            <Footer version={version}/>
+            <Loader show={loading} />
         </>
     );
 }
