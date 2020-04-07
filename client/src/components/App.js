@@ -65,7 +65,7 @@ function App ({turf, version, loading, error}) {
                 />
             </main>
             <Footer version={version}/>
-            <Loader show={loading} />
+            <Loader show={loading} size="lg" />
         </>
     );
 }

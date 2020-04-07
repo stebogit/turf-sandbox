@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
         // get the request token needed to get the access_token for GitHub
         const requestToken = req.query.code;
         const {data: {access_token: accessToken}} = await axios.post(
-            `${githubUrl}?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}&scope=gist,repo`,
+            `${githubUrl}?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`,
             null,
             {
                 headers: {Accept: 'application/json'}

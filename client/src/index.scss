@@ -26,13 +26,22 @@ body {
   z-index: 100;
   background-color: lightgrey;
   opacity: .6;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   text-align: center;
 
-  .fa-compass {
-    display: inline-block;
-    margin-top: calc(50vh - 40px);
+  .spinner {
+    position: absolute;
+
+    &.fa-2x {
+      top: calc(50% - 16px);
+      left: calc(50% - 16px);
+    }
+
+    &.fa-5x {
+      top: calc(50% - 40px);
+      left: calc(50% - 40px);
+    }
   }
 }
 
@@ -155,7 +164,7 @@ main {
       position: absolute;
       right: 0;
       top: 0;
-      cursor: col-resize ;
+      cursor: col-resize;
     }
 
     .editor-container {
@@ -202,5 +211,44 @@ footer {
   a,
   a:hover {
     color: initial;
+  }
+}
+
+.modal {
+  .gist-list {
+    max-width: 350px;
+
+    .modal-content {
+      position: relative;
+      height: 100%;
+
+      .modal-body {
+        text-align: center;
+      }
+
+      .modal-header {
+        background-color: #2ecc70;
+        color: #004e65;
+      }
+
+      .gists {
+        padding: 0;
+        list-style: none;
+
+        .gist {
+          &:hover {
+            background-color: #f8f9fa;
+          }
+
+          button {
+            color: #004e65;
+
+            .fa-2x {
+              font-size: 1.5em;;
+            }
+          }
+        }
+      }
+    }
   }
 }
