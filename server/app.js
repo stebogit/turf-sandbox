@@ -21,6 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// register routes
+app.use('/auth', require('./routes/auth'));
+
 if (isProduction) {
   // Serve any static files
   app.use(favicon(path.join(__dirname, '../client/build/favicon.ico')));
