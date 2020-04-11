@@ -1,7 +1,9 @@
-import React, {forwardRef} from 'react'
+import React, {forwardRef, useContext} from 'react';
 import Alert from './Alert';
+import {AppContext} from '../context';
 
-function Output ({width, geojson, error}, ref) {
+function Output (props, ref) {
+    const {geojson, error} = useContext(AppContext);
     return (
         <>
             {error &&
@@ -58,6 +60,7 @@ function page (geojson) {
 
     const geoJSON = L.geoJSON(${geojson}, {
         useSimpleStyle: true,
+        useMakiMarkers: true,
         style: (feature) => ({...feature.properties}),
     }).addTo(map);
     const bounds = geoJSON.getBounds();

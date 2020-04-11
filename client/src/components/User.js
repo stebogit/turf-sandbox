@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem} from 'reactstrap';
 import GistListModal from './GistListModal';
-import SavedGistModal from './SavedGistModal';
-import {GITHUB_CLIENT_ID, GIST_FILENAME} from './../constants';
+import {GITHUB_CLIENT_ID} from './../constants';
 
 const storedAuthDetails = JSON.parse(localStorage.getItem('auth_details'));
 if (storedAuthDetails && Date.now() > storedAuthDetails.expire) {
     localStorage.removeItem('auth_details');
 }
-
-const url = new URL(window.location.href);
-const accessToken = url.searchParams.get('access_token');
 
 const content = `// simply return a valid GeoJSON and it will be rendered on the map!
 const poly = turf.polygon([[
@@ -34,9 +30,11 @@ return turf.featureCollection([poly, point]);
 function User () {
     const [user, setUser] = useState(storedAuthDetails ? storedAuthDetails.user : null);
     const [showListModal, setShowListModal] = useState(false);
-    const [showSavedGistModal, toggleSavedGistModal] = useState(false);
 
     useEffect(() => {
+        const url = new URL(window.location.href);
+        const accessToken = url.searchParams.get('access_token');
+
         if (!user && accessToken) {
             window.history.replaceState(null, '', url.origin);
 
@@ -62,22 +60,20 @@ function User () {
                     alert('Authentication failed');
                 });
         }
-
-        // return function cleanup () {};
     }, []);
 
-    const logOut = () => {
+    function logOut () {
         localStorage.removeItem('auth_details');
         window.location.reload();
-    };
+    }
 
-    const toggleListModal = () => setShowListModal(!showListModal);
+    function toggleListModal () { setShowListModal(!showListModal) }
 
-    const saveGist = () => {
+    function saveGist () {
         fetch(`https://api.github.com/gists`, {
             method: 'POST',
             headers: {
-                Authorization: 'token ' + accessToken,
+                Authorization: 'token ' + storedAuthDetails.access_token,
                 Accept: 'application/vnd.github.v3+json',
             },
             body: JSON.stringify({
@@ -88,17 +84,16 @@ function User () {
                 }
             }),
         })
-            .then(response => response.json())
-            .then((result) => {
-                console.log(result);
-                console.log(result.files[GIST_FILENAME].raw_url);
+            .then(async (response) => {
+                if (response.status >= 400) throw new Error();
+                const result = await response.json();
                 alert('Saved at ' + result.html_url);
             })
             .catch((e) => {
                 console.error(e);
-                alert('Sorry, an error occurred while fetching your gists.');
+                alert('Sorry, an error occurred while saving your gist.');
             });
-    };
+    }
 
     if (!user) {
         return (
@@ -132,7 +127,6 @@ function User () {
             </UncontrolledDropdown>
 
             <GistListModal show={showListModal} onClose={toggleListModal} username={user.login}/>
-            <SavedGistModal show={showSavedGistModal} onClose={toggleSavedGistModal} username={user.login}/>
         </>
     );
 }

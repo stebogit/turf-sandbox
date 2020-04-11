@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {AppContext} from '../context';
 
-function Footer ({version}) {
+function Footer () {
+    const {version} = useContext(AppContext);
     return (
         <footer>
             {version && <span className="version">Running Turf <strong>v{version}</strong></span>}

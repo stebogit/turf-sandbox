@@ -1,16 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import Loader from './Loader';
 import {GIST_FILENAME} from '../constants';
+import {AppContext} from '../context';
 
 function GistListModal ({show, onClose, username}) {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const {setState} = useContext(AppContext);
 
     useEffect(() => {
         fetch(`https://api.github.com/users/${username}/gists`)
-            .then(response => response.json())
-            .then((gists) => {
+            .then(async (response) => {
+                if (response.status !== 200) throw new Error();
+
+                const gists = await response.json();
                 const list = gists.reduce((l, g) => {
                     if (g.files[GIST_FILENAME]) {
                         l.push({
@@ -31,12 +35,21 @@ function GistListModal ({show, onClose, username}) {
                 setLoading(false);
                 alert('Sorry, an error occurred while fetching your gists.');
             });
-
-        // return function cleanup () {};
     }, []);
 
     const loadGist = (url) => {
-        console.log(url)
+        setState(s => ({...s, loading: true}));
+        fetch(url)
+            .then(async (response) => {
+                if (response.status !== 200) throw new Error();
+
+                const code = await response.text();
+                setState(s => ({...s, code, loading: false}));
+            })
+            .catch((e) => {
+                console.error(e);
+                alert('Sorry, an error occurred while loading your gist.');
+            });
         onClose();
     };
 
