@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-solarized_dark';
@@ -9,11 +9,11 @@ import BlockingMethods from './blockingMethods';
 function Editor () {
     const {code, turf, setState} = useContext(AppContext);
 
-    function runCode (newCode) {
-        console.clear();
+    const runCode = (newCode) => {
+        // console.clear();
         const [geojson, error] = executeCode(turf + ' ' + newCode);
         setState(s => ({...s, code: newCode, geojson, error}));
-    }
+    };
 
     useEffect(() => {
         if (turf) runCode(code);

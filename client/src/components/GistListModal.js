@@ -1,18 +1,19 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import Loader from './Loader';
-import {GIST_FILENAME} from '../constants';
+import {GIST_FILENAME, url} from '../constants';
 import {AppContext} from '../context';
 
 function GistListModal ({show, onClose, username}) {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const {setState} = useContext(AppContext);
+    const urlRef = useRef(url);
 
     useEffect(() => {
         fetch(`https://api.github.com/users/${username}/gists`)
             .then(async (response) => {
-                if (response.status !== 200) throw new Error();
+                if (response.status >= 400) throw new Error();
 
                 const gists = await response.json();
                 const list = gists.reduce((l, g) => {
@@ -37,24 +38,26 @@ function GistListModal ({show, onClose, username}) {
             });
     }, []);
 
-    const loadGist = (url) => {
+    const loadGist = async (gist) => {
         setState(s => ({...s, loading: true}));
-        fetch(url)
-            .then(async (response) => {
-                if (response.status !== 200) throw new Error();
+        try {
+            const response = await fetch(gist.raw_url);
+            if (response.status >= 400) throw new Error();
 
-                const code = await response.text();
-                setState(s => ({...s, code, loading: false}));
-            })
-            .catch((e) => {
-                console.error(e);
-                alert('Sorry, an error occurred while loading your gist.');
-            });
+            const code = await response.text();
+
+            urlRef.current.searchParams.set('gist', gist.id);
+            window.history.replaceState(null, '', urlRef.current.origin + urlRef.current.search);
+            setState(s => ({...s, code, loading: false}));
+        } catch (e) {
+            console.error(e);
+            alert('Sorry, an error occurred while loading your gist.');
+        }
         onClose();
     };
 
     return (
-        <Modal isOpen={show} toggle={onClose} scrollable unmountOnClose={false} className="gist-list">
+        <Modal isOpen={show} toggle={onClose} scrollable className="gist-list">
             <ModalHeader toggle={onClose}>Modal title</ModalHeader>
             <ModalBody>
                 {list.length ? (
@@ -72,7 +75,7 @@ function GistListModal ({show, onClose, username}) {
                                 {' '}
                                 {gist.filename}
                                 {' '}
-                                <Button color="default" size="sm" title="Load" onClick={() => loadGist(gist.raw_url)}>
+                                <Button color="default" size="sm" title="Load" onClick={() => loadGist(gist)}>
                                     <i className="fas fa-arrow-alt-circle-right fa-2x" />
                                 </Button>
                             </li>

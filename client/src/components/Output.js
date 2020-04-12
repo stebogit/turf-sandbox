@@ -32,8 +32,8 @@ function page (geojson) {
             crossorigin=""></script>
 
     <!-- leaflet-simplestyle -->
-    <script src="https://unpkg.com/leaflet-simplestyle@1.0.1/dist/leaflet-simplestyle.min.js"
-            integrity="sha384-5/fqZjPyJTThDocZ9o85x+dhgirhDqRKjJ5Z72zDzFpyJxi1Mdl9TvoPIuddk4EF"
+    <script src="https://unpkg.com/leaflet-simplestyle@1.2.3/dist/leaflet-simplestyle.min.js"
+            integrity="sha384-+UeFzWKlDFBP5m+PVjCQG6f8BP3Ynmq5pMduBw12vLt9cMXbyujVg3iP3XUfPmv8"
             crossorigin=""></script>
 
     <style type="text/css">
