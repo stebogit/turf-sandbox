@@ -1,24 +1,27 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {Component} from 'react';
 import {DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem} from 'reactstrap';
 import GistListModal from './GistListModal';
 import {GITHUB_CLIENT_ID, url} from './../constants';
-import {AppContext} from '../context';
+import AppContext from '../context';
 
-let storedAuthDetails = JSON.parse(localStorage.getItem('auth_details'));
-if (storedAuthDetails && Date.now() > storedAuthDetails.expire) {
+let storedAuth = JSON.parse(localStorage.getItem('auth'));
+if (storedAuth && Date.now() > storedAuth.expire) {
     localStorage.removeItem('auth_details');
-    storedAuthDetails = null;
+    storedAuth = null;
 }
 
-function User () {
-    const [user, setUser] = useState(storedAuthDetails ? storedAuthDetails.user : null);
-    const [showListModal, setShowListModal] = useState(false);
-    const {code} = useContext(AppContext);
+class User extends Component {
+    state = {
+        user: storedAuth ? storedAuth.user : null,
+        showListModal: false,
+        accessToken: localStorage.getItem('access_token'),
+    };
 
-    useEffect(() => {
-        const accessToken = url.searchParams.get('access_token');
+    static contextType = AppContext;
 
-        if (!user && accessToken) {
+    componentDidMount () {
+        if (!this.state.user && url.searchParams.has('access_token')) {
+            const accessToken = url.searchParams.get('access_token');
             url.searchParams.delete('access_token');
             window.history.replaceState(null, '', url.origin + url.search);
 
@@ -33,13 +36,17 @@ function User () {
                     if (response.status >= 400) throw new Error();
 
                     const user = await response.json();
-                    setUser(user);
-                    localStorage.setItem('auth_details', JSON.stringify({
+
+                    localStorage.setItem('auth', JSON.stringify({
                         expire: Date.now() + 1000 * 60 * 60,
                         user,
-                        access_token: accessToken,
                     }));
+                    localStorage.setItem('access_token', accessToken);
 
+                    this.setState({user, accessToken});
+
+                    // GitHub will redirect the use to ta standard url set when registering the app
+                    // here we restore the `gits` param if it was set at login
                     const gist = localStorage.getItem('gist');
                     if (gist) {
                         localStorage.removeItem('gist');
@@ -52,27 +59,20 @@ function User () {
                     alert('Authentication failed');
                 });
         }
-    }, []);
+    }
 
-    const logOut = () => {
-        localStorage.removeItem('auth_details');
-        window.location.reload();
-    };
-
-    const toggleListModal = () => setShowListModal(!showListModal);
-
-    const saveGist = () => {
+    saveGist = () => {
         fetch(`https://api.github.com/gists`, {
             method: 'POST',
             headers: {
-                Authorization: 'token ' + storedAuthDetails.access_token,
+                Authorization: 'token ' + this.state.accessToken,
                 Accept: 'application/vnd.github.v3+json',
             },
             body: JSON.stringify({
                 description: 'turf-sandbox snippet',
                 public: true,
                 files: {
-                    'script.turf-sandbox': {content: code},
+                    'script.turf-sandbox': {content: this.context.code},
                 }
             }),
         })
@@ -88,48 +88,62 @@ function User () {
             });
     };
 
-    const logIn = () => {
+    logIn = () => {
         const gist = url.searchParams.get('gist');
+        // save gist reference for after login
         if (gist) localStorage.setItem('gist', gist);
-        window.location = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=gist`
+        window.location = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=gist`;
     };
 
-    if (!user) {
+    logOut = () => {
+        localStorage.removeItem('auth');
+        localStorage.removeItem('access_token');
+        window.location.reload();
+    };
+
+    toggleListModal = () => this.setState(s => ({showListModal: !s.showListModal }));
+
+    render () {
+        const {user, showListModal} = this.state;
+
+        if (!user) {
+            return (
+                <button className="btn btn-link login" title="Login with GitHub" onClick={this.logIn}>
+                    <i className="fas fa-sign-in-alt"/> Login
+                </button>
+            );
+        }
+
         return (
-            <button className="btn btn-link login" title="Login with GitHub" onClick={logIn}>
-                <i className="fas fa-sign-in-alt"/> Login
-            </button>
+            <>
+                <UncontrolledDropdown>
+                    <DropdownToggle color="link" className="avatar-btn" caret>
+                        <img alt={`Avatar of ${user.name}`} className="avatar-img" title={user.name}
+                             src={`${user.avatar_url}`}/>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                        <DropdownItem onClick={this.saveGist}>
+                            <i className="fas fa-save fa-fw"/> Save to Gist
+                        </DropdownItem>
+                        <DropdownItem onClick={this.toggleListModal}>
+                            <i className="fas fa-cloud-download-alt fa-fw"/> Load from Gist
+                        </DropdownItem>
+                        <DropdownItem onClick={this.logOut}>
+                            <i className="fas fa-sign-out-alt fa-fw"/> Logout
+                        </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
+
+                {showListModal &&
+                    <GistListModal
+                        show
+                        onLoadGist
+                        onClose={this.toggleListModal}
+                        username={user.login}
+                    />}
+            </>
         );
     }
-
-    return (
-        <>
-            <UncontrolledDropdown>
-                <DropdownToggle color="link" className="avatar-btn" caret>
-                    <img alt={`Avatar of ${user.name}`} className="avatar-img" title={user.name}
-                         src={`${user.avatar_url}`}/>
-                </DropdownToggle>
-                <DropdownMenu right>
-                    <DropdownItem onClick={saveGist}>
-                        <i className="fas fa-save fa-fw"/> Save to Gist
-                    </DropdownItem>
-                    <DropdownItem onClick={toggleListModal}>
-                        <i className="fas fa-cloud-download-alt fa-fw"/> Load from Gist
-                    </DropdownItem>
-                    <DropdownItem onClick={logOut}>
-                        <i className="fas fa-sign-out-alt fa-fw"/> Logout
-                    </DropdownItem>
-                </DropdownMenu>
-            </UncontrolledDropdown>
-
-            <GistListModal
-                    show={showListModal}
-                    onClose={toggleListModal}
-                    username={user.login}
-                    accessToken={storedAuthDetails.access_token}
-                />
-        </>
-    );
 }
 
 export default User;

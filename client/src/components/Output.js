@@ -1,9 +1,7 @@
-import React, {forwardRef, useContext} from 'react';
+import React, {forwardRef} from 'react';
 import Alert from './Alert';
-import {AppContext} from '../context';
 
-function Output (props, ref) {
-    const {geojson, error} = useContext(AppContext);
+function Output ({geojson, error}, ref) {
     return (
         <>
             {error &&
@@ -52,6 +50,7 @@ function page (geojson) {
       zoom: 6,
     });
 
+    // make it open in another tab
     map.attributionControl.setPrefix('<a href="https://leafletjs.com" title="A JS library for interactive maps" target="_blank" rel="noreferrer noopener">Leaflet</a>');
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

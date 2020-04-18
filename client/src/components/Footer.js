@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {AppContext} from '../context';
+import AppContext from '../context';
 
 function Footer () {
     const {version} = useContext(AppContext);

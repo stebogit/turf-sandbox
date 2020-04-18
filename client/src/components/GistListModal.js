@@ -1,13 +1,11 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import Loader from './Loader';
 import {GIST_FILENAME, url} from '../constants';
-import {AppContext} from '../context';
 
 function GistListModal ({show, onClose, username}) {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {setState} = useContext(AppContext);
     const urlRef = useRef(url);
 
     useEffect(() => {
@@ -36,24 +34,11 @@ function GistListModal ({show, onClose, username}) {
                 setLoading(false);
                 alert('Sorry, an error occurred while fetching your gists.');
             });
-    }, []);
+    }, [username]);
 
     const loadGist = async (gist) => {
-        setState(s => ({...s, loading: true}));
-        try {
-            const response = await fetch(gist.raw_url);
-            if (response.status >= 400) throw new Error();
-
-            const code = await response.text();
-
-            urlRef.current.searchParams.set('gist', gist.id);
-            window.history.replaceState(null, '', urlRef.current.origin + urlRef.current.search);
-            setState(s => ({...s, code, loading: false}));
-        } catch (e) {
-            console.error(e);
-            alert('Sorry, an error occurred while loading your gist.');
-        }
-        onClose();
+        urlRef.current.searchParams.set('gist', gist.id);
+        window.location.reload();
     };
 
     return (
