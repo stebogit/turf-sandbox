@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem, Button} from 'reactstrap';
 import GistListModal from './GistListModal';
-import {GITHUB_CLIENT_ID, url} from './../constants';
+import {GITHUB_CLIENT_ID, GITHUB_API, url} from './../constants';
 import AppContext from '../context';
 
 let storedAuth = JSON.parse(localStorage.getItem('auth'));
@@ -26,7 +26,7 @@ class User extends Component {
             window.history.replaceState(null, '', url.origin + url.search);
 
             // get the authenticated user
-            fetch('https://api.github.com/user', {
+            fetch(`${GITHUB_API}/user`, {
                 headers: {
                     Authorization: 'token ' + accessToken,
                     Accept: 'application/json',
@@ -62,7 +62,7 @@ class User extends Component {
     }
 
     saveGist = () => {
-        fetch(`https://api.github.com/gists`, {
+        fetch(`${GITHUB_API}/gists`, {
             method: 'POST',
             headers: {
                 Authorization: 'token ' + this.state.accessToken,

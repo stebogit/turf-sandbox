@@ -8,7 +8,7 @@ import Footer from './Footer';
 import AppContext from '../context';
 import BlockingMethods from './blockingMethods';
 import withTurf from './withTurf';
-import {GIST_FILENAME, url} from '../constants';
+import {GIST_FILENAME, GITHUB_API, url} from '../constants';
 
 // you can style your results using simplestyle (https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0)
 const initialCode = `// simply return a valid GeoJSON and it will be rendered on the map!
@@ -31,12 +31,12 @@ class App extends Component {
 
     componentDidUpdate (prevProps, prevState, snapshot) {
         if (this.props.turf !== prevProps.turf) {
-            this.runCode(this.state.code);
+            this.runCode(this.state.code, false);
         }
     }
 
-    runCode = (code) => {
-        // console.clear();
+    runCode = (code, clear = true) => {
+        if (clear) console.clear();
         const [geojson, geojsonError] = executeCode(this.props.turf + ' ' + code);
         this.setState({
             geojson,
@@ -48,7 +48,7 @@ class App extends Component {
     loadGist = async () => {
         const gist = url.searchParams.get('gist');
         try {
-            const res = await fetch(`https://api.github.com/gists/${gist}`).then(r => r.json());
+            const res = await fetch(`${GITHUB_API}/gists/${gist}`).then(r => r.json());
             const code = res.files[GIST_FILENAME].content;
             this.setState({code});
         } catch (e) {

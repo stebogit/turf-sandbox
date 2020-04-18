@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Table} from 'reactstrap';
 import Loader from './Loader';
-import {GIST_FILENAME, url} from '../constants';
+import {GIST_FILENAME, GITHUB_API, url} from '../constants';
 
 function GistListModal ({onClose, username}) {
     const [list, setList] = useState([]);
@@ -9,7 +9,7 @@ function GistListModal ({onClose, username}) {
     const urlRef = useRef(url);
 
     useEffect(() => {
-        fetch(`https://api.github.com/users/${username}/gists`)
+        fetch(`${GITHUB_API}/users/${username}/gists`)
             .then(async (response) => {
                 if (response.status >= 400) throw new Error();
 
