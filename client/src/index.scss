@@ -110,42 +110,6 @@ header {
         background-color: #2ecc71;
       }
     }
-
-
-    //.version {
-    //  display: inline-block;
-    //  margin-right: 15px;
-    //  font-size: 80%;
-    //  color: #002B36;
-    //  font-style: italic;
-    //}
-    //
-    //a {
-    //  color: initial;
-    //
-    //  .svg-inline--fa.fa-lg {
-    //    // correct default alignment
-    //    vertical-align: middle;
-    //  }
-    //}
-
-    //.dropdown .dropdown-menu .menu-item {
-    //  display: block;
-    //  width: 100%;
-    //  padding: .25rem 1.5rem;
-    //  clear: both;
-    //  font-weight: 400;
-    //  color: #212529;
-    //  text-align: inherit;
-    //  white-space: nowrap;
-    //  background-color: #0000;
-    //  border: 0;
-    //  cursor: pointer;
-    //
-    //  label {
-    //    cursor: pointer;
-    //  }
-    //}
   }
 }
 
@@ -216,8 +180,6 @@ footer {
 
 .modal {
   .gist-list {
-    max-width: 350px;
-
     .modal-content {
       position: relative;
       height: 100%;

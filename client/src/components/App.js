@@ -12,23 +12,6 @@ import {GIST_FILENAME, url} from '../constants';
 
 // you can style your results using simplestyle (https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0)
 const initialCode = `// simply return a valid GeoJSON and it will be rendered on the map!
-
-const poly = turf.polygon([[
-  [11.339607, 44.505626], [11.326990, 44.499382], [11.329479, 44.490382],
-  [11.339693, 44.486402], [11.356258, 44.484443], [11.358060, 44.485729],
-  [11.356172, 44.501035], [11.347761, 44.504280], [11.339607, 44.505626]
-]], {
-  stroke: '#F00',
-  fill: '#F00',
-  'fill-opacity': 0.3,
-});
-
-const point = turf.point([11.342, 44.495], {
-  'marker-color': '#F00',
-  'marker-symbol': 'bus',
-});
-
-return turf.featureCollection([poly, point]);
 `;
 
 class App extends Component {
@@ -79,9 +62,9 @@ class App extends Component {
     enableMouseEvent = () => this.iframeRef.current.style.pointerEvents = 'auto';
 
     render () {
-        const {turfLoading} = this.props;
+        const {turfVersion, turfLoading} = this.props;
         const {code, geojsonError, geojson} = this.state;
-        // , setCode: (code) => this.setState({code})
+
         return (
             <AppContext.Provider value={{code}}>
                 <Header/>
@@ -91,7 +74,7 @@ class App extends Component {
                         <Output geojson={geojson} error={geojsonError} ref={this.iframeRef}/>}
                     />
                 </main>
-                <Footer/>
+                <Footer version={turfVersion}/>
                 <Loader show={turfLoading} size="lg"/>
             </AppContext.Provider>
         );

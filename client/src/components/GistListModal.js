@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Table} from 'reactstrap';
 import Loader from './Loader';
 import {GIST_FILENAME, url} from '../constants';
 
-function GistListModal ({show, onClose, username}) {
+function GistListModal ({onClose, username}) {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const urlRef = useRef(url);
@@ -36,38 +36,45 @@ function GistListModal ({show, onClose, username}) {
             });
     }, [username]);
 
-    const loadGist = async (gist) => {
+    const loadGist = (gist) => {
         urlRef.current.searchParams.set('gist', gist.id);
-        window.location.reload();
+        window.location.href = url.origin + url.search;
     };
 
     return (
-        <Modal isOpen={show} toggle={onClose} scrollable className="gist-list">
-            <ModalHeader toggle={onClose}>Modal title</ModalHeader>
+        <Modal isOpen toggle={onClose} scrollable className="gist-list">
+            <ModalHeader toggle={onClose}>Your Gists</ModalHeader>
             <ModalBody>
                 {list.length ? (
-                    <ul className="gists">
+                    <Table className="gists" borderless size="sm">
+                        <tbody>
                         {list.map(gist => (
-                            <li key={gist.id} className="gist">
-                                <a className="btn btn-link btn-sm" title="View on gist.github.com"
-                                   href={gist.html_url} target="_blank" rel="noreferrer noopener"
-                                >
-                                    <i className="fas fa-eye"/>
-                                    <span style={{fontSize: '70%', display: 'inline-flex'}}>
-                                       <i className="fas fa-external-link-alt"/>
-                                    </span>
-                                </a>
-                                {' '}
-                                {gist.filename}
-                                {' '}
-                                <Button color="default" size="sm" title="Load" onClick={() => loadGist(gist)}>
-                                    <i className="fas fa-arrow-alt-circle-right fa-2x" />
-                                </Button>
-                            </li>
+                            <tr key={gist.id} className="gist">
+                                <td>
+                                    <a className="btn btn-link btn-sm" title="View on gist.github.com"
+                                       href={gist.html_url} target="_blank" rel="noreferrer noopener"
+                                    >
+                                        <i className="fas fa-eye"/>
+                                            <span style={{fontSize: '70%', display: 'inline-flex'}}>
+                                           <i className="fas fa-external-link-alt"/>
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    {gist.filename}<br/>
+                                    <small className="text-muted">{gist.id}</small>
+                                </td>
+                                <td>
+                                    <Button color="default" size="sm" title="Load" onClick={() => loadGist(gist)}>
+                                        <i className="fas fa-arrow-alt-circle-right fa-2x"/>
+                                    </Button>
+                                </td>
+                            </tr>
                         ))}
-                    </ul>
+                        </tbody>
+                    </Table>
                 ) : (
-                    <sman className="text-muted"><em>- No Gists found -</em></sman>
+                    <span className="text-muted"><em>- No Gists found -</em></span>
                 )}
             </ModalBody>
             <ModalFooter>

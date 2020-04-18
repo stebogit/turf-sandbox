@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 export default function withTurf (WrappedComponent) {
     return function () {
         const [state, setState] = useState({
-            version: '',
+            turfVersion: '',
             turf: '',
             turfLoading: true,
         });
@@ -19,16 +19,18 @@ export default function withTurf (WrappedComponent) {
                 setState(s => ({
                     ...s,
                     turf,
-                    version: npmData.collected.metadata.version,
+                    turfVersion: npmData.collected.metadata.version,
                     turfLoading: false
                 }));
             }
 
-            fetchData().catch(e => {
+            try {
+                fetchData();
+            } catch (e) {
                 console.error(e);
                 alert('Sorry, an error occurred loading Turf.');
                 setState(s => ({...s, turfLoading: false,}));
-            });
+            }
         }, []);
 
         return <WrappedComponent {...state}/>;

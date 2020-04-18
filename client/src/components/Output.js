@@ -47,7 +47,7 @@ function page (geojson) {
 
     const map = L.map('map', {
       center: center.slice().reverse(),
-      zoom: 6,
+      zoom: 4,
     });
 
     // make it open in another tab

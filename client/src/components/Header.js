@@ -1,7 +1,17 @@
 import React from 'react';
 import User from './User';
+import {url} from '../constants';
+import {Button} from 'reactstrap';
 
 function Header () {
+    const withGist = url.searchParams.has('gist');
+
+    const reset = () => {
+        localStorage.removeItem('gist');
+        url.searchParams.delete('gist');
+        window.location.href = url.origin + url.search;
+    };
+
     return (
         <header>
             <div className="logo">
@@ -13,6 +23,10 @@ function Header () {
                 </h1>
             </div>
             <div className="tools">
+                {withGist &&
+                    <Button color="link" className="login" title="Remove gist" onClick={reset}>
+                        <i className="far fa-trash-alt"/> Clear
+                    </Button>}
                 <User />
             </div>
         </header>

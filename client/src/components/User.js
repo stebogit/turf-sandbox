@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem} from 'reactstrap';
+import {DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem, Button} from 'reactstrap';
 import GistListModal from './GistListModal';
 import {GITHUB_CLIENT_ID, url} from './../constants';
 import AppContext from '../context';
@@ -51,7 +51,7 @@ class User extends Component {
                     if (gist) {
                         localStorage.removeItem('gist');
                         url.searchParams.set('gist', gist);
-                        window.location = url.origin + url.search;
+                        window.location.href = url.origin + url.search;
                     }
                 })
                 .catch((e) => {
@@ -92,7 +92,7 @@ class User extends Component {
         const gist = url.searchParams.get('gist');
         // save gist reference for after login
         if (gist) localStorage.setItem('gist', gist);
-        window.location = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=gist`;
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=gist`;
     };
 
     logOut = () => {
@@ -108,9 +108,9 @@ class User extends Component {
 
         if (!user) {
             return (
-                <button className="btn btn-link login" title="Login with GitHub" onClick={this.logIn}>
+                <Button color="link" className="login" title="Login with GitHub" onClick={this.logIn}>
                     <i className="fas fa-sign-in-alt"/> Login
-                </button>
+                </Button>
             );
         }
 
@@ -136,7 +136,6 @@ class User extends Component {
 
                 {showListModal &&
                     <GistListModal
-                        show
                         onLoadGist
                         onClose={this.toggleListModal}
                         username={user.login}
