@@ -1,19 +1,20 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/638b9095-c150-40dd-ba3b-e5e61586f35b/deploy-status)](https://app.netlify.com/sites/turf-sandbox/deploys)
+
 # Turf Sandbox
 
 Playground environment allowing users to try out [Turf](https://github.com/Turfjs/turf)'s features and create (hopefully)
  easy to debug examples for issues they encountered using any Turf package.<br>
-The app is currently hosted at [turf-sandbox.herokuapp.com](https://turf-sandbox.herokuapp.com).
+The app is currently hosted at [https://turf-sandbox.netlify.app](https://turf-sandbox.netlify.app/).
 
 ### Usage
 
-Write your code on the editor and return a valid GeoJSON object, it will be rendered on the map
- on the right.
+Write your code on the editor and return a valid GeoJSON object, it will be rendered on the map on the right.
 
 ### TODOs
 
-- [ ] Add package selection
+- [ ] ~Add package selection~ We'll just use the latest version from `https://npmcdn.com/@turf/turf`
 
-- [ ] Allow the user to save code snippets and create links to share the examples
+- [x] Allow the user to save code snippets and create links to share the examples
 
 - [ ] Add instructions on how to use the tool
 
@@ -52,3 +53,11 @@ The following articles and projects were very useful for the development of this
  call `https://github.com/login/oauth/access_token` to request an API `AccessToken`
 - If all the values we've provided are valid, the API will respond with the `AccessToken` for client to make authorised
  requests to the GitHub API, which we store in the Local Storage.
+
+## Development
+
+Set your env variables in `.env`.
+
+Make sure you have [Netlify CLI](https://github.com/netlify/cli) installed globally.
+
+Run `netlify dev`.

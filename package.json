@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "author": "Stefano Borghi <@stebogit>",
-  "homepage": "https://github.com/stebogit/turf-sandbox",
+  "homepage": "https://turf-sandbox.netlify.app",
   "keywords": [
     "turf",
     "sandbox",
