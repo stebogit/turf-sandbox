@@ -1,12 +1,10 @@
-const router = require('express').Router();
+require('dotenv').config();
 const axios = require('axios');
 
-// This is the client ID and client secret that you obtained
-// while registering the application
+// client ID and client secret obtained while registering the application on GitHub
 const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const GITHUB_URL = 'https://github.com/login/oauth/access_token';
-const origin = process.env.NODE_ENV !== 'production' ? process.env.APP_URL : '';
 
 /*
  * GitHub Authorizing OAuth Apps
@@ -14,10 +12,11 @@ const origin = process.env.NODE_ENV !== 'production' ? process.env.APP_URL : '';
  */
 
 // GitHub will redirect the login request here, providing the request token as `code` parameter
-router.get('/', async (req, res) => {
+export async function handler (event, context) {
     try {
         // get the request token needed to get the access_token for GitHub
-        const requestToken = req.query.code;
+        const requestToken = event.queryStringParameters.code;
+
         const {data: {access_token: accessToken}} = await axios.post(
             `${GITHUB_URL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${requestToken}`,
             null,
@@ -25,12 +24,23 @@ router.get('/', async (req, res) => {
                 headers: {Accept: 'application/json'}
             });
 
-        return res.redirect(`${origin}/?access_token=${accessToken}`);
+        // redirect user to authorization URL
+        return {
+            statusCode: 302,
+            headers: {
+                Location: `${process.env.URL}/?access_token=${accessToken}`,
+                'Cache-Control': 'no-cache' // disable caching of this response
+            },
+            body: '' // return body for local dev
+        };
 
     } catch (err) {
         console.error(err);
-        return res.status(500).send({error: err});
+        return {
+            statusCode: err.statusCode || 500,
+            body: JSON.stringify({
+                error: err.message,
+            })
+        };
     }
-});
-
-module.exports = router;
+}
