@@ -129,6 +129,14 @@ main {
       right: 0;
       top: 0;
       cursor: col-resize;
+
+      .fa-grip-lines-vertical {
+        position: absolute;
+        top: calc(50% - 7px);
+        font-size: smaller;
+        color: #fff;
+        left: 1.5px;
+      }
     }
 
     .editor-container {

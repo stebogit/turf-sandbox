@@ -40,7 +40,7 @@ function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize})
         <>
             <div className="resizable" ref={container} style={{ width: width || '50%' }}>
                 {React.cloneElement(leftElement, {width: `${width || '100%'}`})}
-                <div className="divider" ref={divider}/>
+                <div className="divider" ref={divider}><i className="fas fa-grip-lines-vertical"/></div>
             </div>
             <div className="iframe-container" style={{ width: width ? `calc(100% - ${width}px)` : '50%'}}>
                 {rightElement}
