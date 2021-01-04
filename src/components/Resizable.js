@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize}) {
-    const [width, setWidth] = useState('50%');
+    const [width, setWidth] = useState(null);
 
     const container = useRef(null);
     const divider = useRef(null);
@@ -38,11 +38,11 @@ function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize})
 
     return (
         <>
-            <div className="resizable" ref={container} style={{ width }}>
-                {leftElement}
+            <div className="resizable" ref={container} style={{ width: width || '50%' }}>
+                {React.cloneElement(leftElement, {width: `${width || '100%'}`})}
                 <div className="divider" ref={divider}/>
             </div>
-            <div className="iframe-container" style={{ width: width === '50%' ? width : `calc(100% - ${width}px)` }}>
+            <div className="iframe-container" style={{ width: width ? `calc(100% - ${width}px)` : '50%'}}>
                 {rightElement}
             </div>
         </>

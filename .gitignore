@@ -17,6 +17,7 @@ npm-debug.log
 # misc
 .DS_Store
 .env
+.eslintcache
 /sandbox
 
 npm-debug.log*

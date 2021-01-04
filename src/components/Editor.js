@@ -6,14 +6,14 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import AceEditor from 'react-ace';
 
-function Editor ({code, onChange}) {
+function Editor ({code, onChange, width}) {
     return (
         <div className="editor-container">
             <AceEditor
                 placeholder=""
                 defaultValue={code}
                 height="100%"
-                width="100%"
+                width={width}
                 mode="javascript"
                 theme="solarized_dark"
                 debounceChangePeriod={1000}

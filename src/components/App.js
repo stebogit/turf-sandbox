@@ -11,7 +11,27 @@ import withTurf from './withTurf';
 import {GIST_FILENAME, GITHUB_API, url} from '../constants';
 
 // you can style your results using simplestyle (https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0)
-const initialCode = `// simply return a valid GeoJSON and it will be rendered on the map!
+const initialCode = `// simply return a valid GeoJSON and it will be rendered on the map
+
+const p = turf.point(
+  [-122.3093, 47.6638],
+  {'marker-symbol': 'rocket', 'marker-color': '#F00', 'marker-size': 'large'}
+);
+const l = turf.lineString(
+  [[-122.3116, 47.6623], [-122.3052, 47.6650]],
+  {'stroke-width': 3, stroke: '#00F'}
+);
+const poly = turf.polygon([[
+    [-122.3104, 47.6627],
+    [-122.3071, 47.6627],
+    [-122.3071, 47.6644],
+    [-122.3104, 47.6644],
+    [-122.3104, 47.6627]
+  ]],
+  {stroke: '#0FF', fill: '#0FF', 'fill-opacity': 0.3, 'stroke-width': 6}
+);
+
+return turf.featureCollection([poly, l, p]);
 `;
 
 class App extends Component {
