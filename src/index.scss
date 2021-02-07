@@ -145,24 +145,130 @@ main {
     }
   }
 
-  .iframe-container {
-    position: relative;
-    overflow: hidden;
+  .right-block {
+    display: flex;
+    flex-direction: column;
     min-width: 200px;
 
-    .alert {
-      margin-left: 46px;
-      position: absolute;
-      top: 20px;
-      right: 20px;
+    .iframe-container {
+      position: relative;
+      overflow: hidden;
+
+      .alert {
+        margin-left: 46px;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+
+      iframe {
+        border: none;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        display: block;
+      }
+    }
+  }
+}
+
+#console {
+  background: #7a7a7a;
+  color: #292b2c;
+  width: 100%;
+
+  .console-header {
+    background: #333333;
+    color: #7a7a7a;
+    position: relative;
+    font-size: .95rem;
+    padding: 2px;
+
+    .icons {
+      font-size: .7em;
+      margin-left: 10px;
+
+      strong {
+        margin-left: 10px;
+      }
+
+      .log {
+        color: #afafaf;
+      }
+
+      .warn {
+        color: #efcf56;
+      }
+
+      .error {
+        color: #ff6c8f;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
-    iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-      margin: auto;
-      display: block;
+    .clear-console {
+      margin-left: 15px;
+      color: #e4e4e4;
+      font-size: .7em;
+
+      &:hover {
+        cursor: pointer;
+        color: darken(#e4e4e4, 15%);
+      }
+    }
+
+    .title {
+      margin: 5px 0 0 5px;
+
+      &:hover {
+        cursor: pointer;
+        color: lighten(#7a7a7a, 10%);
+      }
+    }
+
+    .tools {
+      position: absolute;
+      top: 2px;
+      right: 5px;
+
+      .close-console {
+        &:hover {
+          cursor: pointer;
+          color: lighten(#7a7a7a, 10%);
+        }
+      }
+    }
+  }
+
+  .console-output {
+    height: 150px;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: .7em;
+
+      li {
+        border-bottom: 1px solid #8c8c8c;
+        padding: 3px 6px;
+        font-family: "SF Mono", "Monaco", "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+        white-space: pre;
+        color: #484848;
+
+        &.error {
+          background: #bf5b7420;
+          color: #941a37;
+        }
+
+        &.warn {
+          background: #f3ca6320;
+          color: #efcf56;
+        }
+      }
     }
   }
 }

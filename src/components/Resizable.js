@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Console from './Console';
 
 function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize}) {
     const [width, setWidth] = useState(null);
@@ -42,8 +43,13 @@ function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize})
                 {React.cloneElement(leftElement, {width: `${width || '100%'}`})}
                 <div className="divider" ref={divider}><i className="fas fa-grip-lines-vertical"/></div>
             </div>
-            <div className="iframe-container" style={{ width: width ? `calc(100% - ${width}px)` : '50%'}}>
-                {rightElement}
+
+            <div className="right-block" style={{width: width ? `calc(100% - ${width}px)` : '50%'}}>
+                <div className="iframe-container" style={{height: '100%'}}>
+                    {rightElement}
+                </div>
+
+                <Console />
             </div>
         </>
     );
