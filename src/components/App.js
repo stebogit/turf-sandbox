@@ -4,7 +4,6 @@ import Output from './Output';
 import Header from './Header';
 import Resizable from './Resizable';
 import Loader from './Loader';
-import Footer from './Footer';
 import AppContext from '../context';
 import BlockingMethods from './blockingMethods';
 import withTurf from './withTurf';
@@ -89,12 +88,14 @@ class App extends Component {
             <AppContext.Provider value={{code}}>
                 <Header/>
                 <main>
-                    <Resizable onBeforeResize={this.disableMouseEvent} onAfterResize={this.enableMouseEvent} leftElement={
-                        <Editor code={code} onChange={this.runCode}/>} rightElement={
-                        <Output geojson={geojson} error={geojsonError} ref={this.iframeRef}/>}
+                    <Resizable
+                        turfVersion={turfVersion}
+                        onBeforeResize={this.disableMouseEvent}
+                        onAfterResize={this.enableMouseEvent}
+                        leftElement={<Editor code={code} onChange={this.runCode}/>}
+                        rightElement={<Output geojson={geojson} error={geojsonError} ref={this.iframeRef}/>}
                     />
                 </main>
-                <Footer version={turfVersion}/>
                 <Loader show={turfLoading} size="lg"/>
             </AppContext.Provider>
         );

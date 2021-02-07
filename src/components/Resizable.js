@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Console from './Console';
+import Footer from './Footer';
 
-function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize}) {
+function Resizable ({turfVersion, rightElement, leftElement, onBeforeResize, onAfterResize}) {
     const [width, setWidth] = useState(null);
 
     const container = useRef(null);
@@ -40,7 +41,10 @@ function Resizable ({ rightElement, leftElement, onBeforeResize, onAfterResize})
     return (
         <>
             <div className="resizable" ref={container} style={{ width: width || '50%' }}>
-                {React.cloneElement(leftElement, {width: `${width || '100%'}`})}
+                <div className="left-block">
+                    {React.cloneElement(leftElement, {width: `${width || '100%'}`})}
+                    <Footer version={turfVersion}/>
+                </div>
                 <div className="divider" ref={divider}><i className="fas fa-grip-lines-vertical"/></div>
             </div>
 

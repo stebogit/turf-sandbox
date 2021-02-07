@@ -66,19 +66,25 @@ header {
       padding: 4px 15px 0;
       margin: 0;
 
-      a {
+      span {
         color: white;
-
-        &:hover {
-          text-decoration: none;
-        }
       }
 
       small {
-        //color: #01313f;
         font-style: italic;
         letter-spacing: initial;
-        font-size: 50%;
+        font-size: 95%;
+      }
+
+      a {
+        color: black;
+        font-size: 60%;
+        margin-left: 5px;
+
+        &:hover {
+          text-decoration: none;
+          color: lighten(black, 20%);
+        }
       }
     }
   }
@@ -114,17 +120,17 @@ header {
 }
 
 main {
-  height: calc(100vh - 45px - 30px);
+  height: calc(100vh - 45px);
   display: flex;
 
   .resizable {
     position: relative;
-    min-width: 200px;
+    min-width: calc(300px + 10px);
 
     .divider {
       height: 100%;
       width: 10px;
-      background-color: #004e65;
+      background-color: #2ecc70;
       position: absolute;
       right: 0;
       top: 0;
@@ -134,7 +140,7 @@ main {
         position: absolute;
         top: calc(50% - 7px);
         font-size: smaller;
-        color: #fff;
+        color: #004e65;
         left: 1.5px;
       }
     }
@@ -145,10 +151,16 @@ main {
     }
   }
 
+  .left-block {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
   .right-block {
     display: flex;
     flex-direction: column;
-    min-width: 200px;
+    min-width: 300px;
 
     .iframe-container {
       position: relative;
@@ -173,16 +185,17 @@ main {
 }
 
 #console {
-  background: #7a7a7a;
+  background: #e8e8e8;
   color: #292b2c;
   width: 100%;
 
   .console-header {
+    height: 30px;
     background: #333333;
-    color: #7a7a7a;
+    color: #dadada;
     position: relative;
     font-size: .95rem;
-    padding: 2px;
+    padding: 4px;
 
     .icons {
       font-size: .7em;
@@ -197,11 +210,11 @@ main {
       }
 
       .warn {
-        color: #efcf56;
+        color: $warning;
       }
 
       .error {
-        color: #ff6c8f;
+        color: $danger;
       }
 
       &:hover {
@@ -225,26 +238,26 @@ main {
 
       &:hover {
         cursor: pointer;
-        color: lighten(#7a7a7a, 10%);
+        color: darken(#dadada, 15%);
       }
     }
 
     .tools {
       position: absolute;
-      top: 2px;
+      top: 4px;
       right: 5px;
 
       .close-console {
         &:hover {
           cursor: pointer;
-          color: lighten(#7a7a7a, 10%);
+          color: darken(#dadada, 15%);
         }
       }
     }
   }
 
   .console-output {
-    height: 150px;
+    height: 200px;
 
     ul {
       list-style: none;
@@ -253,20 +266,20 @@ main {
       font-size: .7em;
 
       li {
-        border-bottom: 1px solid #8c8c8c;
+        border-bottom: 1px solid #d4d4d4;
         padding: 3px 6px;
         font-family: "SF Mono", "Monaco", "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
         white-space: pre;
-        color: #484848;
+        color: #777777;
 
         &.error {
-          background: #bf5b7420;
-          color: #941a37;
+          background: #bf5b7436;
+          color: $danger;
         }
 
         &.warn {
-          background: #f3ca6320;
-          color: #efcf56;
+          background: #f3ca634d;
+          color: $warning;
         }
       }
     }
@@ -278,17 +291,15 @@ footer {
   height: 30px;
   font-size: 80%;
   padding: 5px 10px;
-  text-align: center;
 
   .version {
     margin-right: 10px;
     color: #2ecc70;
     font-style: italic;
-  }
 
-  a,
-  a:hover {
-    color: initial;
+    a {
+      color: inherit;
+    }
   }
 }
 

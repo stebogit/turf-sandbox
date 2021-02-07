@@ -16,10 +16,10 @@ function Header () {
         <header>
             <div className="logo">
                 <h1>
-                    <a href="https://github.com/Turfjs/turf" target="_blank" rel="noreferrer noopener">
-                        TURF
+                    <span>TURF</span><small>sandbox</small>{' '}
+                    <a href="https://github.com/stebogit/turf-sandbox" target="_blank" rel="noreferrer noopener">
+                        <i className="fab fa-github fa-fw"/>
                     </a>
-                    <small>sandbox</small>
                 </h1>
             </div>
             <div className="tools">

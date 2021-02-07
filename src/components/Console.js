@@ -51,11 +51,14 @@ function Console () {
 
             {show &&
             <div className="console-output">
-                <ul>{console.everything.map((line, i) =>
-                    <li key={i} className={line.type}>
-                        {line.value.map((v, j) =>
-                            <span key={j}>{v.toString()}</span>)}
-                    </li>)}
+                <ul>
+                    {console.everything.map((line, i) =>
+                        <li key={i} className={line.type}>
+                            {line.value.map((v, j) =>
+                                <span key={j}>{v.toString()}</span>)}
+                        </li>)}
+                    {!console.everything.length &&
+                        <li style={{borderBottom: 'none'}}><em>empty</em></li>}
                 </ul>
             </div>}
         </div>
