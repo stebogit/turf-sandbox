@@ -1,10 +1,9 @@
 import React from 'react';
 import 'ace-builds';
-import 'ace-builds/webpack-resolver';
+import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/ext-language_tools';
-import AceEditor from 'react-ace';
 
 function Editor ({code, onChange, width}) {
     return (
@@ -24,6 +23,7 @@ function Editor ({code, onChange, width}) {
                 tabSize={2}
                 wrapEnabled
                 showPrintMargin={false}
+                setOptions={{useWorker: false}}
             />
         </div>
     )

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {getAbbreviatedPackument} from 'query-registry';
 
 export default function withTurf (WrappedComponent) {
     return function () {
@@ -13,13 +14,13 @@ export default function withTurf (WrappedComponent) {
                 const [turf, npmData] = await Promise.all([
                     // import Turf and package info
                     fetch('https://npmcdn.com/@turf/turf', {redirect: 'follow'}).then(r => r.text()),
-                    fetch('https://api.npms.io/v2/package/%40turf%2Fturf').then(r => r.json()),
+                    getAbbreviatedPackument({name: '@turf/turf'}),
                 ]);
 
                 setState(s => ({
                     ...s,
                     turf,
-                    turfVersion: npmData.collected.metadata.version,
+                    turfVersion: npmData.distTags.latest,
                     turfLoading: false
                 }));
             }

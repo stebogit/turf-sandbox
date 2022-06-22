@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {DropdownMenu, UncontrolledDropdown, DropdownToggle, DropdownItem, Button} from 'reactstrap';
 import GistListModal from './GistListModal';
-import {GITHUB_CLIENT_ID, GITHUB_API, url} from './../constants';
+import {GITHUB_CLIENT_ID, GITHUB_API, url} from '../constants';
 import AppContext from '../context';
 
 let storedAuth = JSON.parse(localStorage.getItem('auth'));
