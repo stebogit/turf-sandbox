@@ -5,7 +5,7 @@
   base = ""
 
   # Default build command.
-  command = "npm run build"
+  command = "npm install && npm run build"
 
   # Directory with the serverless Lambda functions to deploy to AWS.
   functions = "src/functions"

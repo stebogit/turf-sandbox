@@ -12,7 +12,7 @@ const GITHUB_URL = 'https://github.com/login/oauth/access_token';
  */
 
 // GitHub will redirect the login request here, providing the request token as `code` parameter
-export async function handler (event, context) {
+exports.handler = async function (event, context) {
     try {
         // get the request token needed to get the access_token for GitHub
         const requestToken = event.queryStringParameters.code;
