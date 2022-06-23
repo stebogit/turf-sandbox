@@ -1,12 +1,14 @@
 {
   "name": "turf-sandbox",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "author": "Stefano Borghi <@stebogit>",
   "homepage": "https://turf-sandbox.netlify.app",
   "keywords": [
     "turf",
     "sandbox",
+    "geojson",
+    "webmap",
     "playground"
   ],
   "engines": {
@@ -14,12 +16,10 @@
     "npm": "8.x"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "run-p build:**",
-    "test": "react-scripts test",
-    "start:ntlf": "netlify dev",
-    "build:app": "react-scripts build",
-    "build:ntlf": "netlify build src/functions"
+    "build": "react-scripts build",
+    "dev": "netlify dev",
+    "serve": "react-scripts start",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "ace-builds": "^1.6.0",

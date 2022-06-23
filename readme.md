@@ -47,7 +47,7 @@ The following articles and projects were very useful for the development of this
 - Register the app on GitHub to obtain the `ClientID` and `ClientSecret` for the app
 - From the browser the client makes a request to the `https://github.com/login/oauth/authorize` with
  the appropriate app's `ClientID`
-- The above operation allows the user to authorizes the client to access the user's GitHub data and redirects the user
+- The above operation allows the user to authorize the client to access the user's GitHub data and redirects the user
  to the callback URL we defined when registering app
 - Now (here on the server) with the use of the obtained `RequestToken` in addition to `ClientID` and `ClientSecret` we
  call `https://github.com/login/oauth/access_token` to request an API `AccessToken`
@@ -56,8 +56,13 @@ The following articles and projects were very useful for the development of this
 
 ## Development
 
-Set your env variables in `.env`.
+- Set your local env variables in `.env`
+  > if the production environment is linked the environment variables will be pulled from
+  > the production server; any variable in `.env` overrides the production value 
+- Make sure you have [Netlify CLI](https://github.com/netlify/cli) installed globally.
+- Run `netlify dev` (or `npm run dev`) will serve the project on a webpack dev server (also execute the `serve` script)
 
-Make sure you have [Netlify CLI](https://github.com/netlify/cli) installed globally.
 
-Run `netlify dev`.
+- `netlify build` will execute the build command (the same it will in production) locally
+     > this requires to run `netlify link` once, which will link the service to your repo (also creating a `.netlify`
+     > folder in the project root)
