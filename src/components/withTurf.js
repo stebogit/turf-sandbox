@@ -12,8 +12,8 @@ export default function withTurf (WrappedComponent) {
         useEffect(() => {
             async function fetchData () {
                 const [turf, npmData] = await Promise.all([
-                    // import Turf and package info
-                    fetch('https://npmcdn.com/@turf/turf', {redirect: 'follow'}).then(r => r.text()),
+                    // import Turf and package info, use 'turf.min.js' to explicitly require the iife version
+                    fetch('https://unpkg.com/@turf/turf/turf.min.js', {redirect: 'follow'}).then(r => r.text()),
                     getAbbreviatedPackument({name: '@turf/turf'}),
                 ]);
 
