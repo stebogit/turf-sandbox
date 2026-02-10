@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "ace-builds": "^1.6.0",
-    "axios": "^0.27.2",
+    "axios": "^1.13.5",
     "dotenv": "^16.0.1",
     "node-sass": "^7.0.1",
     "query-registry": "^2.5.0",
